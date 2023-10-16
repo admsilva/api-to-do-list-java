@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api.todolist.dev:
+    image: dev
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    container_name: api.todolist.dev
+    ports:
+      - 8888:8080
+    restart: always
