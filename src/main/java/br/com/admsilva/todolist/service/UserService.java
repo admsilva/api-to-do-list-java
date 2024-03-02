@@ -28,16 +28,16 @@ public class UserService {
 
     public void saveUser(UserModel userModel) throws Exception {
         this.checkUserNameExists(userModel.getUsername());
-        var passwordHashred = this.hashredPassword(userModel.getPassword().toCharArray());
-        userModel.setPassword(passwordHashred);
+        var passwordHashed = this.hashedPassword(userModel.getPassword().toCharArray());
+        userModel.setPassword(passwordHashed);
         this.userRepository.save(userModel);
     }
 
     public UserModel changeUser(UserModel changedUserModel, UUID id) throws Exception {
         var user = this.getUserModelById(id);
         Utils.copyNonNullProperties(changedUserModel, user);
-        var passwordHashred = this.hashredPassword(user.getPassword().toCharArray());
-        user.setPassword(passwordHashred);
+        var passwordHashed = this.hashedPassword(user.getPassword().toCharArray());
+        user.setPassword(passwordHashed);
         return this.userRepository.save(user);
     }
 
@@ -54,15 +54,14 @@ public class UserService {
         return user;
     }
 
-    private UserModel checkUserNameExists(String userName) throws Exception {
+    private void checkUserNameExists(String userName) throws Exception {
         var user = this.userRepository.findByUsername(userName);
         if (user != null) {
             throw new Exception("Usuario ja existe.");
         }
-        return user;
     }
 
-    private String hashredPassword(char[] password) {
+    private String hashedPassword(char[] password) {
         return BCrypt.withDefaults().hashToString(12, password);
     }
 }
