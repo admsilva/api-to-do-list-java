@@ -49,23 +49,23 @@ public class TaskService {
 
     private void checkTaskExistsAndUserIsOwner(TaskModel task, UUID idUser) throws Exception {
         if (task == null) {
-            throw new Exception("Tarefa nao encontrada.");
+            throw new Exception("Task not found.");
         }
         if (!task.getIdUser().equals(idUser)) {
-            throw new Exception("Usuario nao tem permissao para alterar essa tarefa.");
+            throw new Exception("User not has permission to change this task.");
         }
     }
 
     private void checkConsistencyDate(TaskModel taskModel) throws Exception {
         var currentDate = LocalDateTime.now();
         if (currentDate.isAfter(taskModel.getStartAt())) {
-            throw new Exception("A data de inicio nao pode ser menor que a data atual.");
+            throw new Exception("The start date cannot be less than the current date.");
         }
         if (currentDate.isAfter(taskModel.getEndAt())) {
-            throw new Exception("A data de termino nao pode ser menor que a data atual.");
+            throw new Exception("The end date cannot be less than the current date.");
         }
         if (taskModel.getStartAt().isAfter(taskModel.getEndAt())) {
-            throw new Exception("A data de inicio nao pode ser depois da data de termino.");
+            throw new Exception("The start date cannot be later than the end date.");
         }
     }
 }
