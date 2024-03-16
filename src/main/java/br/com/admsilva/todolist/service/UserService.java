@@ -49,7 +49,7 @@ public class UserService {
     private UserModel getUserModelById(UUID id) throws Exception {
         var user = this.userRepository.findById(id).orElse(null);
         if (user == null) {
-            throw new Exception("Usuario nao existe.");
+            throw new Exception("User does not exist.");
         }
         return user;
     }
@@ -57,7 +57,7 @@ public class UserService {
     private void checkUserNameExists(String userName) throws Exception {
         var user = this.userRepository.findByUsername(userName);
         if (user != null) {
-            throw new Exception("Usuario ja existe.");
+            throw new Exception("User already exists.");
         }
     }
 

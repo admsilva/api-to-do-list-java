@@ -29,7 +29,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
         if (servletPath.startsWith("/tasks/")) {
             var authorization = request.getHeader("Authorization");
             if (authorization == null) {
-                response.sendError(401, "Nao foi possivel autenticar.");
+                response.sendError(401, "Not allowed authentication.");
                 return;
             }
             var authEncoded = authorization.substring("Basic".length()).trim();
@@ -37,14 +37,14 @@ public class FilterTaskAuth extends OncePerRequestFilter {
             var authString = new String(authDecoded);
             String[] credentials = authString.split(":");
             if (credentials.length < 2) {
-                response.sendError(401, "Nao foi possivel autenticar.");
+                response.sendError(401, "Not allowed authentication.");
                 return;
             }
             String username = credentials[0];
             String password = credentials[1];
             var user = this.userRepository.findByUsername(username);
             if (user == null) {
-                response.sendError(403, "Usuario sem autorizacao.");
+                response.sendError(403, "User not authenticated.");
                 return;
             }
             var isCorrectPassword = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
@@ -53,7 +53,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            response.sendError(403, "Usuario sem autorizacao.");
+            response.sendError(403, "User not has authorization.");
             return;
         }
         filterChain.doFilter(request, response);
