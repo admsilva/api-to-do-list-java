@@ -3,6 +3,8 @@ package br.com.admsilva.todolist.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 @OpenAPIDefinition(info = @Info(title = "Users", version = "v1"))
 @RequestMapping("/users")
 public class UserController {
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -40,7 +43,8 @@ public class UserController {
             var user = this.userService.getUserById(id);
             return ResponseEntity.status(HttpStatus.OK).body(user);
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
     
@@ -50,7 +54,8 @@ public class UserController {
             this.userService.saveUser(userModel);
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
         } catch(Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
 
@@ -60,7 +65,8 @@ public class UserController {
             var userUpdated = this.userService.changeUser(userModel, id);
             return ResponseEntity.status(HttpStatus.OK).body(userUpdated);
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
 
@@ -70,7 +76,8 @@ public class UserController {
             this.userService.destroyUser(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
 }
