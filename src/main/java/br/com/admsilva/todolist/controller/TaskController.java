@@ -3,6 +3,8 @@ package br.com.admsilva.todolist.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @SecurityRequirement(name = "basicAuth")
 @RequestMapping("/tasks")
 public class TaskController {
+    private static final Logger LOG = LoggerFactory.getLogger(TaskController.class);
 
     @Autowired
     private TaskService taskService;
@@ -56,7 +59,8 @@ public class TaskController {
             this.taskService.saveTask(taskModel, (UUID) idUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
 
@@ -67,7 +71,8 @@ public class TaskController {
             var task = this.taskService.changeTask(taskModel, id, (UUID) idUser);
             return ResponseEntity.status(HttpStatus.OK).body(task);
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
 
@@ -78,7 +83,8 @@ public class TaskController {
             this.taskService.destroyTask(id, (UUID) idUser);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+            LOG.error("Exception occurred", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception occurred");
         }
     }
 }
