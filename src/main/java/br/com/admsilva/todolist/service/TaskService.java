@@ -28,7 +28,7 @@ public class TaskService {
     }
 
     public void saveTask(TaskModel taskModel, UUID idUser) throws Exception {
-        taskModel.setIdUser((UUID) idUser);
+        taskModel.setIdUser(idUser);
         this.checkConsistencyDate(taskModel);
         this.taskRepository.save(taskModel);
     }

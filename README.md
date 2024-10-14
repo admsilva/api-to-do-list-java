@@ -2,7 +2,7 @@
 
 ## Componentes
 
-- JAVA (21)
+- JAVA (23)
 - SPRING BOOT (3)
 - MAVEN (3)
 - H2 (latest)
