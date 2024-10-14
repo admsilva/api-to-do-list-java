@@ -15,5 +15,4 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
     scheme = "basic"
 )
 public class OpenApi30Config {
-    
 }
