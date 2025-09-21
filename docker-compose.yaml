@@ -1,5 +1,6 @@
 services:
   api.todolist.dev:
+    platform: linux/amd64
     image: dev
     build:
       context: . 
