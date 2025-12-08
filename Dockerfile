@@ -10,7 +10,7 @@ COPY . .
 
 RUN mvn clean install
 
-FROM openjdk:25-jdk-slim AS dev
+FROM openjdk:25-ea-25-jdk-slim AS dev
 
 COPY --from=build /target/todolist-1.0.0.jar app.jar
 
